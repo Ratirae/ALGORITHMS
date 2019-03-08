@@ -4,7 +4,7 @@ using namespace std;
 void Merge(double ary[], int n);
 int main()
 {
-    double ary[]{ 89, 56.7, 12.7, 56.2, 3, 99, 0.8};
+    double ary[]{ 89, 56.7, 12.7, 56.2, 3, 99, 0.8,4,3};
     int n = sizeof(ary)/sizeof(double);
     cout << "数组长度:" << n << endl;
     for(auto i:ary)
@@ -12,7 +12,7 @@ int main()
         cout << i << endl;
     }
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-    Merge(ary, n);
+    Merge(ary, n);  //调用
     for(auto i:ary)
     {
         cout << i << endl;
