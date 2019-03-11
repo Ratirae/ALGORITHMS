@@ -4,7 +4,7 @@ using namespace std;
 void FindMaxCrossingSubarry(int ary[], int n, int &sum, int &first_index, int &length);
 int main()
 {
-    int ary[]{-4,-5,6,8,5,-9,-7};
+    int ary[]{-2,-4,-5,6,8,5,-9,-7,-1};
     int n = sizeof(ary) / sizeof(int);
     int sum = 0;
     int first_index = 0;
@@ -30,8 +30,8 @@ void FindMaxCrossingSubarry(int ary[], int n, int &sum, int &first_index, int &l
         sum_temp = sum_temp + ary[i];
         if(sum_temp < sum1)
         {
-            left_index = i;
-            return;
+            left_index = i + 1;
+            i = 0;
         }
     }
     sum_temp = sum2;
@@ -41,10 +41,11 @@ void FindMaxCrossingSubarry(int ary[], int n, int &sum, int &first_index, int &l
         sum_temp = sum_temp + ary[i];
         if(sum_temp < sum2)
         {
-            right_index = i;
-            return;
+            right_index = i-1;
+            i = n;
         }
     }
     sum = sum1 + sum2;
+    first_index = left_index;
     length = right_index - left_index +1;
 }
