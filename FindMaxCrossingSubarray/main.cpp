@@ -65,23 +65,24 @@ void FindMaximumSubarray(int ary[], int low, int high, int &sum, int &first_inde
     int n1=0,n2=0,n3=0;
     FindMaximumSubarray(ary, low, mid, left_sum, left_index, n1);
     FindMaximumSubarray(ary, mid+1, high, right_sum, right_index, n2);
-    FindMaxCrossingSubarry(ary, (high-low+1), cross_sum, cross_index, n3);
-    if(left_sum >= right_sum && left_sum >= cross_sum)
+    //FindMaxCrossingSubarry(ary, (high-low+1), cross_sum, cross_index, n3);
+
+    if(left_sum >= right_sum/* && eft_sum >= cross_sum*/)
     {
         sum = left_sum;
         first_index = left_index;
         length = n1;
-    }else if(left_sum <= right_sum && right_sum >= cross_sum)
+    }else /*if(left_sum <= right_sum && right_sum >= cross_sum)*/
     {
         sum = right_sum;
         first_index = right_index;
         length = n2;
-    }else
+    }/*else
     {
         sum = cross_sum;
         first_index = cross_index;
         length = n3;
-    }
+    }*/
 
 }
 
