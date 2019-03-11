@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <limits>
 using namespace std;
 void FindMaxCrossingSubarry(int ary[], int n, int &sum, int &first_index, int &length);
 int main()
@@ -18,31 +18,29 @@ int main()
 //最大数组,需要确认首地址和数组长度
 void FindMaxCrossingSubarry(int ary[], int n, int &sum, int &first_index, int &length)
 {
-    int sum1 = -99;
-    int sum2 = -99;
+    int sum1 = INT_MIN;
+    int sum2 = INT_MIN;
     int mid = n/2;
-    int sum_temp = sum1;
+    int sum_temp = 0;
     int left_index;
     int right_index;
     for(int i = mid; i >= 0; --i)
     {
-        sum1 = sum_temp;
         sum_temp = sum_temp + ary[i];
-        if(sum_temp < sum1)
+        if(sum_temp > sum1)
         {
-            left_index = i + 1;
-            i = 0;
+            sum1 = sum_temp;
+            left_index = i;
         }
     }
-    sum_temp = sum2;
+    sum_temp = 0;
     for(int i = (mid+1); i < n; ++i)
     {
-        sum2 = sum_temp;
         sum_temp = sum_temp + ary[i];
-        if(sum_temp < sum2)
+        if(sum_temp > sum2)
         {
-            right_index = i-1;
-            i = n;
+            sum2 = sum_temp;
+            right_index = i;
         }
     }
     sum = sum1 + sum2;
