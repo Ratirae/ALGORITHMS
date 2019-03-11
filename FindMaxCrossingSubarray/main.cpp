@@ -1,8 +1,14 @@
 #include <iostream>
 #include <limits>
 using namespace std;
-void FindMaxCrossingSubarry(int ary[], int n, int &sum, int &first_index, int &length);
-void FindMaximumSubarray(int ary[], int low, int high, int &sum, int &first_index, int &length);
+struct PositioASum {
+    int low;
+    int high;
+    int sum;
+};
+//寻找包含中点位置的最大子数组函数
+PositioASum MaxCrossingSubarray(int a[], int low, int mid, int high);
+PositioASum FindMaxSubArray(int a[], int low, int high);
 int main()
 {
     int ary[]{-2,-4,-5,6,8,5,-9,-7,-1};
@@ -10,81 +16,78 @@ int main()
     int sum = 0;
     int first_index = 0;
     int length = 0;
-    FindMaxCrossingSubarry(ary, n, sum, first_index,length);
-    cout << sum << "\t" << first_index << "\t" << length << endl;
-    FindMaximumSubarray(ary, 0, (n-1), sum, first_index,length);
-    cout << sum << "\t" << first_index << "\t" << length << endl;
+    PositioASum result = FindMaxSubArray(ary, 0, (n-1));
+    cout << result.sum << "\t" << result.low << "\t" << result.high << endl;
     cout << "Hello world!" << endl;
     return 0;
 }
 
 //最大数组,需要确认首地址和数组长度
-void FindMaxCrossingSubarry(int ary[], int n, int &sum, int &first_index, int &length)
+//分治法求最大子数组和问题
+//寻找包含中点位置的最大子数组函数
+PositioASum MaxCrossingSubarray(int a[], int low, int mid, int high)
 {
-    int sum1 = INT_MIN;
-    int sum2 = INT_MIN;
-    int mid = n/2;
-    int sum_temp = 0;
-    int left_index;
-    int right_index;
-    for(int i = mid; i >= 0; --i)
+    //求中点左边的最大值和最大位置
+    int maxLeft;//记录左边的最大位置
+    int maxSumLeft=-10000;//记录左边的最大和
+    int sumLeft=0;
+    for (int i = mid; i >= low; i--)
     {
-        sum_temp = sum_temp + ary[i];
-        if(sum_temp > sum1)
+        sumLeft += a[i];
+        if (sumLeft > maxSumLeft)
         {
-            sum1 = sum_temp;
-            left_index = i;
+            maxSumLeft = sumLeft;
+            maxLeft = i;
         }
     }
-    sum_temp = 0;
-    for(int i = (mid+1); i < n; ++i)
+    //求中点右边的最大值和最大位置
+    int maxRight=mid+1;//记录右边的最大位置
+    int maxSumRight = -10000;//记录右边的最大和
+    int sumRight = 0;//记录右边子数列的和
+    for (int i = mid+1; i <= high; i++)
     {
-        sum_temp = sum_temp + ary[i];
-        if(sum_temp > sum2)
+        sumRight += a[i];
+        if (sumRight > maxSumRight)
         {
-            sum2 = sum_temp;
-            right_index = i;
+            maxSumRight = sumRight;
+            maxRight = i;
         }
     }
-    sum = sum1 + sum2;
-    first_index = left_index;
-    length = right_index - left_index +1;
+    PositioASum ps;
+    ps.low = maxLeft;
+    ps.high = maxRight;
+    ps.sum = maxSumLeft + maxSumRight;
+    return ps;
 }
-
-void FindMaximumSubarray(int ary[], int low, int high, int &sum, int &first_index, int &length)
+//分治法
+PositioASum FindMaxSubArray(int a[], int low, int high)
 {
-    if(low == high)
-        return;
-    int mid = (low+high)/2;
-    int left_sum = 0;
-    int right_sum = 0;
-    int cross_sum = 0;
-    int left_index = 0;
-    int right_index = 0;
-    int cross_index = 0;
-    int n1=0,n2=0,n3=0;
-    FindMaximumSubarray(ary, low, mid, left_sum, left_index, n1);
-    FindMaximumSubarray(ary, mid+1, high, right_sum, right_index, n2);
-    //FindMaxCrossingSubarry(ary, (high-low+1), cross_sum, cross_index, n3);
-
-    if(left_sum >= right_sum/* && eft_sum >= cross_sum*/)
+    if (low == high)
     {
-        sum = left_sum;
-        first_index = left_index;
-        length = n1;
-    }else /*if(left_sum <= right_sum && right_sum >= cross_sum)*/
-    {
-        sum = right_sum;
-        first_index = right_index;
-        length = n2;
-    }/*else
-    {
-        sum = cross_sum;
-        first_index = cross_index;
-        length = n3;
-    }*/
-
+        PositioASum ps;
+        ps.low = low;
+        ps.high = high;
+        ps.sum = a[low];
+        return ps;
+    }
+    else{
+        int mid = (low + high) / 2;
+        PositioASum left = FindMaxSubArray(a, low, mid);
+        PositioASum right = FindMaxSubArray(a, mid + 1, high);
+        PositioASum cross = MaxCrossingSubarray(a, low, mid, high);
+        if (left.sum >= cross.sum && left.sum >= right.sum)
+        {
+            return left;
+        }
+        else if (right.sum >= left.sum && right.sum >= cross.sum)
+        {
+            return right;
+        }else{
+            return cross;
+        }
+    }
 }
+
 
 
 
