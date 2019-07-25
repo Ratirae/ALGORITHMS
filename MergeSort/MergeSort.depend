@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1564043441 source:e:\projectcode\codec++\algorithms\mergesort\main.cpp
+	<iostream>
+	"MergeSort.h"
+
+1564046414 source:e:\projectcode\codec++\algorithms\mergesort\mergesort.cpp
+	<iostream>
+	<vector>
+	"MergeSort.h"
+
+1564044112 e:\projectcode\codec++\algorithms\mergesort\mergesort.h
+	<vector>
+
