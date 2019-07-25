@@ -11,7 +11,7 @@ PositioASum MaxCrossingSubarray(int a[], int low, int mid, int high);
 PositioASum FindMaxSubArray(int a[], int low, int high);
 int main()
 {
-    int ary[]{-2,-4,-5,6,8,5,-9,-7,-1};
+    int ary[]{};
     int n = sizeof(ary) / sizeof(int);
     int sum = 0;
     int first_index = 0;
