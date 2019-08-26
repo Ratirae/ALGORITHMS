@@ -99,7 +99,8 @@ void StrToHex( )
 上述转换均是利用string类中的函数自动转换的，若是其他形式的输入，则应该逐个字符判断
 */
 
-//
+//直接用 string to_string(data)无法将输入的16进制直接转化成相应字符串，
+//转化的是16进制转换成10进制后再转环成字符串
 void ToString( )
 {
 	unsigned long h = 0xab;
